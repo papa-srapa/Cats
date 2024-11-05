@@ -4,7 +4,7 @@ from PIL import Image, ImageTk  # Для работы с изображение�
 from io import BytesIO  # Позволяет работать для ввода и вывода информации
 
 
-def load_image():
+def load_image(url):
     try:
         responses = requests.get(url)  # Получаем URL адрес
         responses.raise_for_status()  # Для обработки исключений
@@ -16,21 +16,30 @@ def load_image():
         return None
 
 
+def set_image():  # Функция будет загружать новое изображение при нажатии кнопки
+    img = load_image(url)
+
+    if img:  # Если переменная не пустая
+        label.config(image=img)  # То устанавливаем картинку на метку
+        label.image = img  # Что бы сборщик мусора не удалил картинку
+
 
 window = Tk()
 window.title('Cats')
-window.geometry('600X480')
+window.geometry('600x480')
 
-label = Label(text='')
+label = Label()
 label.pack()
+
+update_button = Button(text='Обновить',command=set_image)
+update_button.pack()
+
 
 
 url = 'https://cataas.com/cat'
-img = load.image(url)
 
-if img:  # Если переменная не пустая
-    label.config(image=img)  # То устанавливаем картинку на метку
-    label.image = img  # Что бы сборщик мусора не удалил картинку
+set_image()  # Вызываем функцию при запуске программы для появления первого изображения
+
 
 
 window.mainloop()
