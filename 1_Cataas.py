@@ -10,6 +10,7 @@ def load_image(url):
         responses.raise_for_status()  # Для обработки исключений
         image_data = BytesIO(responses.content)  # Тут храниться обработанное изображение
         img = Image.open(image_data)
+        img.thumbnail((600, 480), Image.Resampling.LANCZOS)  # Подгоняем все изображения под один размер
         return ImageTk.PhotoImage(img)
     except Exception as e:
         print(f'Произошла ошибка {e}')
@@ -26,12 +27,12 @@ def set_image():  # Функция будет загружать новое из
 
 window = Tk()
 window.title('Cats')
-window.geometry('600x480')
+window.geometry('600x520')
 
 label = Label()
 label.pack()
 
-update_button = Button(text='Обновить',command=set_image)
+update_button = Button(text='Обновить', command=set_image)
 update_button.pack()
 
 
